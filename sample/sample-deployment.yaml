@@ -1,7 +1,23 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nginx-cache-pvc
+  labels:
+    app: nginx
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi  # Adjust as necessary
+  storageClassName: managed-premium  # You can use other storage classes based on your setup
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: nginx-deployment
 spec:
   replicas: 1
   selector:
@@ -12,7 +28,54 @@ spec:
       labels:
         app: nginx
     spec:
+      securityContext:
+        fsGroup: 1001  # Ensures that the container can write to volumes as non-root
       containers:
         - name: nginx
-          image: ubuntu:latest
+          image: nginx:latest  # You can change this to your custom Nginx image
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-cache
+              mountPath: /var/cache/nginx  # Mount the PVC to this path
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+      volumes:
+        - name: nginx-cache
+          persistentVolumeClaim:
+            claimName: nginx-cache-pvc  # Reference the PVC created above
 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP  # Internal access within the cluster
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: nginx-route
+spec:
+  host: nginx.<your-cluster-domain>  # Replace with your ARO domain (e.g., <your-cluster-name>.<cluster-name>.azurecontainer.io)
+  to:
+    kind: Service
+    name: nginx-service
+  port:
+    targetPort: 80
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
