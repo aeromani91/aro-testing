@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Verify Podman install
-        run: podman --version
+        run: podman --version && ls -ltr
 
       - name: Build image with Podman
         run: |
