@@ -2,7 +2,7 @@
 FROM python:latest
 
 # Set the working directory inside the container
-WORKDIR /app
+##WORKDIR /app
 
 RUN pwd && ls -ltr
 
