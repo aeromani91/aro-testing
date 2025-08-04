@@ -8,4 +8,4 @@ spec:
     kind: Service
     name: my-service
   port:
-    targetPort: 5000
+    targetPort: 8080
