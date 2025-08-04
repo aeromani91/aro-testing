@@ -1,7 +1,7 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: route-accused-swift
+  name: my-router
 spec:
   path: /
   to:
