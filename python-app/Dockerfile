@@ -4,7 +4,7 @@ FROM python:latest
 # Set the working directory inside the container
 ##WORKDIR /app
 
-RUN pwd && ls -ltr
+RUN pwd && ls -ltr && ls /home/aeromani1991/actions-runner/_work/aro-testing/
 
 # Copy project files into the container
 COPY requirements.txt .
