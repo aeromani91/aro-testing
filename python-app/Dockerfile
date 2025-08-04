@@ -4,6 +4,8 @@ FROM python:latest
 # Set the working directory inside the container
 WORKDIR /app
 
+RUN pwd && ls -ltr
+
 # Copy project files into the container
 COPY requirements.txt .
 COPY app.py .
