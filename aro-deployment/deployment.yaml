@@ -18,7 +18,7 @@ spec:
         - name: container
           image: 'myacrsetup.azurecr.io/simple-flask-app:latest'
           ports:
-            - containerPort: 8080
+            - containerPort: 5000
               protocol: TCP
       imagePullSecrets:
         - name: acr-secret
