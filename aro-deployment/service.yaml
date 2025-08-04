@@ -8,6 +8,5 @@ spec:
     - protocol: TCP
       port: 5000
       targetPort: 5000
-      nodePort: 32565
   selector:
     app: my-deployment
