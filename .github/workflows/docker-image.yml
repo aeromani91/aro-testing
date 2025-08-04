@@ -1,0 +1,23 @@
+name: Build with Podman
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Verify Podman install
+        run: podman --version
+
+      - name: Build image with Podman
+        run: |
+          podman build -t simple-flask-app aro-testin/python-app/.
+
+      - name: List images
+        run: podman images
