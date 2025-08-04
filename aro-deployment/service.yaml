@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-service
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 32565
+  selector:
+    app: my-deployment

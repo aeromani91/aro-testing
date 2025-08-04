@@ -1,0 +1,11 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: route-accused-swift
+spec:
+  path: /
+  to:
+    kind: Service
+    name: my-service
+  port:
+    targetPort: 5000
