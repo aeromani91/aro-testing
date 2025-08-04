@@ -21,3 +21,12 @@ jobs:
 
       - name: List images
         run: podman images
+
+      - name: Tag images
+        run: podman tag localhost/simple-flask-app:latest myacrsetup.azurecr.io/simple-flask-app:latest
+
+      - name: ACR login
+        run: podman login -u myacrsetup -p ${{ secrets.ACR_PASSWORD }} myacrsetup.azurecr.io
+
+      - name: Push image to ACR
+        run: podman push myacrsetup.azurecr.io/simple-flask-app:latest
