@@ -3,9 +3,14 @@ apiVersion: route.openshift.io/v1
 metadata:
   name: my-router
 spec:
+  host: my-router-python-testing.apps.arosandbox.japaneast.aroapp.io
   path: /
   to:
     kind: Service
     name: my-service
   port:
     targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: None
+  wildcardPolicy: None
